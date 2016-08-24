@@ -1,0 +1,38 @@
+main {
+  justify-content: center;
+  align-items: center;
+}
+
+.formContainer {
+  padding: 3%;
+}
+
+.headerContainer {
+  padding: 2% 2% 2% 2%;
+  background-color: black;
+  color: white;
+}
+
+.headerTitle, .logout {
+  display: inline;
+}
+
+.logout {
+  float: right;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.submitBtn {
+  margin-top: 1%;
+}
+
+.formTitle {
+  margin-bottom: 1%;
+}
+
+.paddingAdded {
+  padding-top: 0.5%;
+}
