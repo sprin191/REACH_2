@@ -2,8 +2,15 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var request = require('request');
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('hours.db');
+
+//Create new database table if it does not already exist.
+db.run("CREATE table IF NOT EXISTS hours (user TEXT, monday INT default 0, tuesday INT default 0, wednesday INT default 0, thursday INT default 0, friday INT default 0, saturday INT default 0, sunday INT default 0)");
 
 var passOk = undefined;
+var username = undefined;
+var userHours = null;
 
 var users = [
 	'Ashley',
@@ -29,8 +36,10 @@ router.post('/login', function (req, res) {
 	users.forEach(function(user, index) {
 		if(user == req.body.username && req.body.password == passwords[index]) {
 			passOk = true;
+      username = req.body.username;
       res.json({ passOk: true });
       console.log(passOk);
+      console.log(username);
 		}
 });
   if (passOk === false) {
@@ -49,96 +58,51 @@ router.get('/checkAuth', function (req, res) {
 
 router.get('/logout', function (req, res) {
   passOk = undefined;
+  console.log(passOk);
   res.send();
 });
 
-router.get('/videos', function (req, res) {
-request({
-  method: 'GET',
-  url: 'https://proofapi.herokuapp.com/videos?page&per_page',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Auth-Token': authToken
-  }}, function (error, response, body) {
-  console.log('Status:', response.statusCode);
-  console.log('Headers:', JSON.stringify(response.headers));
-  console.log('Response:', body);
-  res.send(body);
-});
+router.get('/userData', function (req, res) {
+
+  			db.get('select * from hours where user="' + username + '"', undefined, function(err, row) {
+  				console.log('query returned');
+
+  				if(row) {
+  					console.log('found record');
+  					userHours = row;
+  				} else {
+  					console.log('inserting');
+  					db.run('insert into hours(user) values("' + username + '")');
+  					userHours = {
+  						monday: 0,
+  						tuesday: 0,
+  						wednesday: 0,
+  						thursday: 0,
+  						friday: 0,
+  						saturday: 0,
+  						sunday: 0
+  					};
+  				}
+  			});
+
+  			var checkResult = function() {
+  				if(userHours === null) {
+  					setTimeout(checkResult, 2000);
+  				} else {
+            res.send(userHours);
+  				}
+  			};
+
+  			checkResult();
 });
 
-router.post('/add-video', function (req, res) {
-//console.log(req.body);
-request({
-  method: 'POST',
-  url: 'https://proofapi.herokuapp.com/videos',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Auth-Token': authToken
-  },
-  body: JSON.stringify(req.body)
-}, function (error, response, body) {
-  console.log('Status:', response.statusCode);
-  console.log('Headers:', JSON.stringify(response.headers));
-  console.log('Response:', body);
-  res.send(body);
-});
-});
+router.post('/updateHours', function (req, res) {
+			console.log(req.body);
+      userHours = req.body;
 
-router.post('/upVote/:id', function (req, res) {
-var id = req.params.id;
-//console.log("upVote!", req.params.id);
-request({
-  method: 'POST',
-  url: 'https://proofapi.herokuapp.com/videos/' + req.params.id + '/votes',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Auth-Token': authToken
-  },
-  body: "{  \"opinion\": 1}"
-}, function (error, response, body) {
-  console.log('Status:', response.statusCode);
-  console.log('Headers:', JSON.stringify(response.headers));
-  console.log('Response:', body);
-  res.send(body);
-});
-});
+			db.run('update hours set sunday=' + req.body.sunday + ', monday=' + req.body.monday + ', tuesday=' + req.body.tuesday + ', wednesday=' + req.body.wednesday + ', thursday=' + req.body.thursday + ', friday=' + req.body.friday + ', saturday=' + req.body.saturday + ' where user="' + req.body.user + '"');
 
-router.post('/downVote/:id', function (req, res) {
-var id = req.params.id;
-//console.log("downVote!", req.params.id);
-request({
-  method: 'POST',
-  url: 'https://proofapi.herokuapp.com/videos/' + req.params.id + '/votes',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Auth-Token': authToken
-  },
-  body: "{  \"opinion\": -1}"
-}, function (error, response, body) {
-  console.log('Status:', response.statusCode);
-  console.log('Headers:', JSON.stringify(response.headers));
-  console.log('Response:', body);
-  res.send(body);
-});
-});
-
-router.post('/view', function (req, res) {
-//console.log("view!", req.body);
-request({
-  method: 'POST',
-  url: 'https://proofapi.herokuapp.com/views',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Auth-Token': authToken
-  },
-  body: JSON.stringify(req.body)
-}, function (error, response, body) {
-  console.log('Status:', response.statusCode);
-  console.log('Headers:', JSON.stringify(response.headers));
-  console.log('Response:', body);
-  res.send(body);
-});
+      res.send(userHours);
 });
 
 module.exports = router;
