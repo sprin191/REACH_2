@@ -7,7 +7,7 @@ $scope.auth = {};
 $scope.logIn = function (authInfo) {
       $http.post('/hours/login', authInfo)
         .then(function (response) {
-          console.log(response);
+          //console.log(response);
           if (response.status == 200 ) {
             //console.log("success!", response);
             if (response.data.passOk === false) {
@@ -17,7 +17,7 @@ $scope.logIn = function (authInfo) {
             $window.location.reload();
           }
         } else {
-            console.log("login error");
+            //console.log("login error");
           }
         });
 };

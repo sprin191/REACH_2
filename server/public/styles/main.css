@@ -3,6 +3,14 @@ main {
   align-items: center;
 }
 
+label, input {
+  margin-bottom: 12px;
+}
+
+input {
+  padding-left: 3px;
+}
+
 .formContainer {
   padding: 3%;
 }
@@ -21,18 +29,26 @@ main {
   float: right;
 }
 
-a:hover {
-  cursor: pointer;
+.formTitle {
+  margin-bottom: 2%;
+}
+
+.paddingAdded {
+  padding-right: 10%;
+}
+
+.btn-secondary {
+  color: #373a3c;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.btn-secondary:hover {
+  color: #373a3c;
+  background-color: #e6e6e6;
+  border-color: #adadad;
 }
 
 .submitBtn {
   margin-top: 1%;
-}
-
-.formTitle {
-  margin-bottom: 1%;
-}
-
-.paddingAdded {
-  padding-top: 0.5%;
 }

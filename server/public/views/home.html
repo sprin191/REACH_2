@@ -1,30 +1,48 @@
 <link rel="stylesheet" href="/styles/home.css">
 <div class="formContainer">
 
-<div class="videoForm">
-  <h3 class="formTitle">Submit A New Video</h3>
+<div class="hourForm">
   <form class="formInfo">
-    <div class="row">
-      <label class="col-xs-1 col-xs-offset-1 paddingAdded" for="video.title">Title: </label>
-      <input type="text" ng-model="video.title" size="35" required/>
-    </div>
+    <h2 class="formTitle" align="center">{{myHours.user}}'s Weekly Work Hours</h2>
+    <table class="borderless" align="center">
 
-    <div class="row">
-      <label class="col-xs-1 col-xs-offset-1 paddingAdded" for="video.url">URL: </label>
-      <input type="text" ng-model="video.url" size="35" required/>
-    </div>
+      <tr>
+        <th><label class="paddingAdded" for="myHours.sunday">Sunday: </label></th>
+        <td><input type="number" ng-model="myHours.sunday"></td>
+      </tr>
 
-    <button class="col-xs-2 col-xs-offset-5 submitBtn" type="submit" ng-click="submitVideo()">Submit</button>
+      <tr>
+        <th><label class="paddingAdded" for="myHours.monday">Monday: </label></th>
+        <td><input type="number" ng-model="myHours.monday"></td>
+      </tr>
+
+      <tr>
+        <th><label class="paddingAdded" for="myHours.tuesday">Tuesday: </label></th>
+        <td><input type="number" ng-model="myHours.tuesday"></td>
+      </tr>
+
+      <tr>
+        <th><label class="paddingAdded" for="myHours.wednesday">Wednesday: </label></th>
+        <td><input type="number" ng-model="myHours.wednesday"></td>
+      </tr>
+
+      <tr>
+        <th><label class="paddingAdded" for="myHours.thursday">Thursday: </label></th>
+        <td><input type="number" ng-model="myHours.thursday"></td>
+      </tr>
+
+      <tr>
+        <th><label class="paddingAdded" for="myHours.friday">Friday: </label></th>
+        <td><input type="number" ng-model="myHours.friday"></td>
+      </tr>
+
+      <tr>
+        <th><label class="paddingAdded" for="myHours.saturday">Saturday: </label></th>
+        <td><input type="number" ng-model="myHours.saturday"></td>
+      </tr>
+
+      </table>
+      <button class="submitBtn btn btn-secondary" align="center" type="submit" ng-click="updateHours(myHours)">Submit</button>
     </form>
   </div>
 </div>
-<form>
-						Sunday: <input type="text" name="Sunday" ng-model="myHours.sunday">
-						Monday: <input type="text" name="Monday" ng-model="myHours.monday">
-						Tuesday: <input type="text" name="Tuesday" ng-model="myHours.tuesday">
-						Wednesday: <input type="text" name="Wednesday" ng-model="myHours.wednesday">
-						Thursday: <input type="text" name="Thursday" ng-model="myHours.thursday">
-						Friday: <input type="text" name="Friday" ng-model="myHours.friday">
-						Saturday: <input type="text" name="Saturday" ng-model="myHours.saturday">
-            <button class="col-xs-2 col-xs-offset-5 submitBtn" type="submit" ng-click="updateHours(myHours)">Submit</button>
-						</form>

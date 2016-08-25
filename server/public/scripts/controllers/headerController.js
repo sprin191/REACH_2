@@ -10,11 +10,11 @@ checkLogin();
     $http.get('/hours/logout')
     .then(function (response) {
       if (response.status === 200 ) {
-        console.log(response);
+        //console.log(response);
         $scope.showLogoutBtn = false;
         $window.location.href='#/login';
       } else {
-        console.log("logout error");
+        //console.log("logout error");
         return;
       }
     });
@@ -24,7 +24,7 @@ checkLogin();
   function checkLogin() {
     $http.get('/hours/checkAuth')
       .then(function (response) {
-        console.log(response);
+        //console.log(response);
         if (response.status == 200) {
           if (response.data.passOk === true) {
             $scope.showLogoutBtn = true;
@@ -33,7 +33,7 @@ checkLogin();
             $scope.showLogoutBtn = false;
           }
         } else {
-          console.log("check login error");
+          //console.log("check login error");
           return;
         }
       });

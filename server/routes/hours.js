@@ -80,7 +80,8 @@ router.get('/userData', function (req, res) {
   						thursday: 0,
   						friday: 0,
   						saturday: 0,
-  						sunday: 0
+  						sunday: 0,
+              user: username
   					};
   				}
   			});
@@ -100,7 +101,7 @@ router.post('/updateHours', function (req, res) {
 			console.log(req.body);
       userHours = req.body;
 
-			db.run('update hours set sunday=' + req.body.sunday + ', monday=' + req.body.monday + ', tuesday=' + req.body.tuesday + ', wednesday=' + req.body.wednesday + ', thursday=' + req.body.thursday + ', friday=' + req.body.friday + ', saturday=' + req.body.saturday + ' where user="' + req.body.user + '"');
+			db.run('update hours set sunday=' + req.body.sunday + ', monday=' + req.body.monday + ', tuesday=' + req.body.tuesday + ', wednesday=' + req.body.wednesday + ', thursday=' + req.body.thursday + ', friday=' + req.body.friday + ', saturday=' + req.body.saturday + ' where user="' + username + '"');
 
       res.send(userHours);
 });
