@@ -29,7 +29,7 @@ function retrieveHours() {
   $http.get('/hours/userData')
     .then(function (response) {
       if (response.status == 200) {
-        console.log(response);
+        //console.log(response);
         $scope.myHours = response.data;
         //console.log($scope.myHours);
       } else {
